@@ -1,5 +1,7 @@
 import pandas as pd
 import numpy as np
+from sklearn.model_selection import train_test_split
+
 
 np.random.seed(42)
 n_samples = 700  # 500 train + 200 test
@@ -16,4 +18,8 @@ data = {
 }
 
 df = pd.DataFrame(data)
+
+train_df, test_df = train_test_split(df, test_size=200, random_state=42)
+train_df.to_csv('train.csv', index=False)
+test_df.to_csv('test.csv', index=False)
 
