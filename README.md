@@ -251,3 +251,25 @@ Funcționează similar cu `train_eda_analis.py`, dar pentru setul de test. Gener
 ### train_model.py
 Acest fișier antrenează și evaluează un model Random Forest pentru clasificarea supraviețuirii. Încarcă datele preprocesate, face encoding suplimentar dacă este necesar, aliniază coloanele între train și test, construiește un pipeline cu SimpleImputer (pentru completarea valorilor lipsă) și RandomForestClassifier. După antrenare, evaluează modelul pe setul de test, afișează metrici relevante (acuratețe, precizie, recall, F1-score, classification report) și salvează grafice cu matricea de confuzie și erorile de predicție. Acest script oferă o evaluare completă a performanței modelului pe date noi.
 
+## Workflow și utilizarea GitHub
+
+Proiectul a fost gestionat folosind Git și GitHub pentru versionare. Principalele etape și practici folosite:
+
+- **Branch-uri:**
+  - S-a lucrat pe ramura principală (`main` sau `master`) pentru dezvoltarea inițială.
+  - Pentru funcționalități noi sau modificări majore (ex: refactorizare, adăugare EDA, integrare model), s-au creat branch-uri dedicate (`feature/eda`, `feature/model`, etc.), pentru a izola dezvoltarea și a evita conflictele.
+
+- **Commit-uri și mesaje:**
+  - Fiecare commit a avut un mesaj clar, care să reflecte modificarea adusă (ex: „add EDA plots”, „fix missing value imputation”, „add Random Forest model”).
+  - S-au făcut commit-uri frecvente, pentru a păstra istoricul granular și a facilita debugging-ul.
+
+- **Merge-uri:**
+  - După testarea și validarea funcționalităților pe branch-urile de feature, acestea au fost integrate în ramura principală prin `merge` sau `pull request`.
+  - Înainte de merge, s-au rezolvat eventualele conflicte și s-a verificat funcționalitatea completă a proiectului.
+
+- **Alte practici:**
+  - S-a folosit `.gitignore` pentru a exclude fișierele temporare, de configurare locală, mediul virtual și fișierele generate automat (ex: `__pycache__`, `.venv/`, `*.csv` etc.).
+
+**Concluzie:**
+Workflow-ul Git a asigurat o dezvoltare organizată, cu posibilitatea de a reveni la orice etapă, de a testa independent funcționalități și de a integra ușor modificările finale. Acest mod de lucru este recomandat pentru orice proiect colaborativ sau de dimensiuni medii/mari.
+
