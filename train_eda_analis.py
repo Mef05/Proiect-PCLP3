@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-cols = ['Pclass','Sex','Age','SibSp','Parch','Ticket','Embarked']
+cols = ['Pclass','Sex','Age','SibSp','Parch','Fare','Embarked']
 
 # Load Titanic datasets
 train_df = pd.read_csv('train.csv')
@@ -27,7 +27,7 @@ plt.figure(figsize=(12, 6))
 sns.heatmap(train_df.isnull(), cbar=False, cmap='viridis')
 plt.title('Missing Values in Training Set')
 plt.savefig('plots/train_missing_values.png')
-plt.show()
+# plt.show()
 
 
 # Handle Missing Values
@@ -37,8 +37,8 @@ train_df['Age'] = train_df['Age'].fillna(train_df['Age'].median())
 # Cabin – drop column by reassignment
 train_df = train_df.drop('Cabin', axis=1)
 
-# Fare – fill with median
-train_df['Fare'] = train_df['Fare'].fillna(train_df['Fare'].median())
+# Embarked – fill with mode instead of median
+train_df['Embarked'] = train_df['Embarked'].fillna(train_df['Embarked'].mode()[0])
 
 # Descriptive Statistics
 print("\nTraining set statistics:")
@@ -57,7 +57,7 @@ num_cols = ['Age', 'Fare', 'SibSp', 'Parch']
 train_df[num_cols].hist(figsize=(12, 8), bins=20)
 plt.suptitle('Distributions of Numerical Features')
 plt.savefig('plots/train_numerical_distributions.png')
-plt.show()
+# plt.show()
 
 # Categorical features by Survival
 for col in ['Pclass', 'Sex', 'Embarked']:
@@ -65,7 +65,7 @@ for col in ['Pclass', 'Sex', 'Embarked']:
     sns.countplot(data=train_df, x=col, hue='Survived')
     plt.title(f'Distribution of {col} by Survival')
     plt.savefig(f'plots/train_{col}_by_survival.png')
-    plt.show()
+    # plt.show()
 
 # Outlier detection
 for col in num_cols:
@@ -73,7 +73,7 @@ for col in num_cols:
     sns.boxplot(data=train_df, y=col)
     plt.title(f'Boxplot for {col}')
     plt.savefig(f'plots/train_{col}_boxplot.png')
-    plt.show()
+    # plt.show()
 
 # Correlation Analysis
 # Encode categorical variables
@@ -85,21 +85,21 @@ plt.figure(figsize=(10, 6))
 sns.heatmap(train_encoded[corr_cols].corr(), annot=True, cmap='coolwarm', center=0)
 plt.title('Correlation Heatmap')
 plt.savefig('plots/train_correlation_heatmap.png')
-plt.show()
+# plt.show()
 
 
 
 # --- Feature vs Target Relationship Analysis ---
-# 1) Violin plots for numeric features vs binary target
+# Violin plots for numeric features vs binary target
 for col in num_cols:
     plt.figure(figsize=(8, 5))
     sns.violinplot(data=train_df, x='Survived', y=col, palette='Set2', hue='Survived')
     plt.title(f'{col} Distribution by Survival')
     plt.xticks([0, 1], ['Died', 'Survived'])
     plt.savefig(f'plots/train_{col}_violin_by_survival.png')
-    plt.show()
+    # plt.show()
 
-# 2) Countplots for categorical features vs target
+# Countplots for categorical features vs target
 for col in cat_cols:
     if col != 'Survived':
         plt.figure(figsize=(8, 5))
@@ -107,13 +107,21 @@ for col in cat_cols:
         plt.title(f'{col} vs Survival Count')
         plt.legend(title='Survived', labels=['Died', 'Survived'])
         plt.savefig(f'plots/train_{col}_count_by_survival.png')
-        plt.show()
+        # plt.show()
 
-# 3) Scatter plot for two numeric features colored by target
+# Scatter plot for two numeric features colored by target
 plt.figure(figsize=(8, 6))
 sns.scatterplot(data=train_df, x='Age', y='Fare', hue='Survived', palette='coolwarm', alpha=0.7)
 plt.title('Age vs Fare by Survival')
 plt.legend(title='Survived', labels=['Died', 'Survived'])
 plt.savefig('plots/train_age_fare_scatter_by_survival.png')
-plt.show()
+# plt.show()
+
+
+train_df = train_df.drop(columns=['Name'])  # Drop 'Name' column as it is not useful for analysis
+train_df = train_df.drop(columns=['PassengerId'])  # Drop 'PassengerId' as it is not useful for analysis
+train_df = train_df.drop(columns=['Ticket'])  # Drop 'Ticket' as it is not useful for analysis
+
+# Save processed training data  
+train_df.to_csv('train_processed.csv', index=False)
 
