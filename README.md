@@ -1,14 +1,14 @@
+## Ștefănescu Andrei-Cosmin, grupa 314CB
+
 # Proiect Titanic – PCLP3
 
-## Autor
-Ștefănescu Andrei-Cosmin, grupa 314CB
 
 ## Descriere generală
 Acest proiect are ca scop analiza și modelarea datelor din celebrul set Titanic, cu accent pe clasificarea supraviețuirii pasagerilor. Am folosit Python și biblioteci precum pandas, scikit-learn, matplotlib și seaborn pentru preprocesare, analiză exploratorie și antrenarea unui model de clasificare.
 
 ## Argumentare alegeri
 - **Sursa datelor:** Am folosit setul de date Titanic de pe Kaggle, deoarece este un benchmark clasic pentru probleme de clasificare binară și conține atât variabile numerice, cât și categorice, cu valori lipsă și distribuții dezechilibrate.
-- **Tipul problemei:** Am ales să formulez problema ca una de clasificare (supraviețuire: da/nu), nu de regresie, deoarece variabila țintă este binară și interpretarea rezultatelor este mai relevantă pentru contextul istoric.
+- **Tipul problemei:** Am ales să formulez problema ca una de clasificare (supraviețuire: da/nu), nu de regresie, deoarece variabila țintă este binară.
 - **Model:** Am optat pentru Random Forest, un model robust pentru clasificare, capabil să gestioneze atât variabile numerice, cât și categorice (după encoding), tolerant la outlieri și valori lipsă (cu imputer). Am folosit și un pipeline cu SimpleImputer pentru a trata valorile lipsă.
 - **Preprocesare:** Am tratat valorile lipsă cu mediană (pentru numeric) și modă (pentru categoric), am făcut encoding pentru variabilele categorice și am aliniat coloanele între seturile de antrenament și test.
 
@@ -86,7 +86,7 @@ Survived
 1    0.402
 Name: proportion, dtype: float64
 ```
-- **Comentariu:** Setul de antrenament are 500 de rânduri, cu multe valori lipsă la 'Age' și 'Cabin'. Distribuția pe clase arată că majoritatea pasagerilor sunt din clasa a III-a și bărbați, iar rata de supraviețuire este de 40%.
+- **Comentariu:** Setul de antrenament are 500 de rânduri, cu multe valori lipsă la 'Age' și 'Cabin' (foarte puțin 'Embarked'). Distribuția pe clase arată că majoritatea pasagerilor sunt din clasa a III-a și bărbați, iar rata de supraviețuire este de 40%.
 
 ### test_eda_analis.py
 ```
@@ -236,4 +236,18 @@ Am analizat distribuțiile, valorile lipsă, relațiile dintre variabile și cor
 
 ## Notă
 Acest proiect a fost realizat pentru disciplina PCLP3, anul universitar 2024-2025.
+
+## Modul de funcționare al codului
+
+### data_prep.py
+Acest fișier se ocupă de preprocesarea datelor brute. Încarcă fișierele `train.csv` și `test.csv` din directorul `titanic/`, tratează valorile lipsă (mediana pentru numeric, moda pentru categoric), elimină coloanele irelevante (`Cabin`, `Name`, `Ticket`, `PassengerId`), face encoding pentru variabilele categorice și salvează rezultatele în `train_processed.csv` și `test_processed.csv`. Astfel, datele sunt pregătite pentru analiză și modelare, având aceleași coloane și fără valori lipsă.
+
+### train_eda_analis.py
+Acest script realizează analiza exploratorie a setului de antrenament. Afișează statistici descriptive, distribuții pentru variabile numerice și categorice, analizează valorile lipsă și creează o serie de grafice (histograme, boxplot-uri, violin plot-uri, countplot-uri, scatter plot, heatmap de corelații). Toate graficele sunt salvate în directorul `plots/` cu prefixul `train_` pentru identificare ușoară. Scriptul ajută la înțelegerea structurii și relațiilor din date.
+
+### test_eda_analis.py
+Funcționează similar cu `train_eda_analis.py`, dar pentru setul de test. Generează aceleași tipuri de statistici și grafice, cu prefixul `test_` în numele fișierelor. Permite compararea distribuțiilor și relațiilor din setul de test cu cele din antrenament, validând astfel consistența datelor și a preprocesării.
+
+### train_model.py
+Acest fișier antrenează și evaluează un model Random Forest pentru clasificarea supraviețuirii. Încarcă datele preprocesate, face encoding suplimentar dacă este necesar, aliniază coloanele între train și test, construiește un pipeline cu SimpleImputer (pentru completarea valorilor lipsă) și RandomForestClassifier. După antrenare, evaluează modelul pe setul de test, afișează metrici relevante (acuratețe, precizie, recall, F1-score, classification report) și salvează grafice cu matricea de confuzie și erorile de predicție. Acest script oferă o evaluare completă a performanței modelului pe date noi.
 
