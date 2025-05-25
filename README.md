@@ -37,6 +37,126 @@ Acest proiect are ca scop analiza și modelarea datelor din celebrul set Titanic
    ```
 4. Vizualizare rezultate: Graficele și rezultatele se găsesc în directorul `plots/`.
 
+## Output și interpretare rezultate
+
+### train_eda_analis.py
+```
+Training set shape: (500, 12)
+Training set columns: ['PassengerId', 'Survived', 'Pclass', 'Name', 'Sex', 'Age', 'SibSp', 'Parch', 'Ticket', 'Fare', 'Cabin', 'Embarked']
+Missing values in training set:
+          Missing  Percent (%)
+Age            98         19.6
+Cabin         385         77.0
+Embarked        2          0.4
+
+Training set statistics:
+       PassengerId    Survived      Pclass         Age       SibSp       Parch        Fare
+count   500.000000  500.000000  500.000000  500.000000  500.000000  500.000000  500.000000
+mean    432.178000    0.402000    2.272000   29.587000    0.460000    0.404000   31.536641
+std     253.833199    0.490793    0.843468   13.336091    0.893306    0.818611   42.443882
+min       1.000000    0.000000    1.000000    0.750000    0.000000    0.000000    0.000000
+25%     220.500000    0.000000    1.000000   22.000000    0.000000    0.000000    7.895800
+50%     428.000000    0.000000    3.000000   28.000000    0.000000    0.000000   14.500000
+75%     638.000000    1.000000    3.000000   36.000000    1.000000    1.000000   31.275000
+max     891.000000    1.000000    3.000000   71.000000    8.000000    6.000000  263.000000
+
+Pclass distribution:
+Pclass
+3    0.528
+1    0.256
+2    0.216
+Name: proportion, dtype: float64
+
+Sex distribution:
+Sex
+male      0.632
+female    0.368
+Name: proportion, dtype: float64
+
+Embarked distribution:
+Embarked
+S    0.694
+C    0.216
+Q    0.090
+Name: proportion, dtype: float64
+
+Survived distribution:
+Survived
+0    0.598
+1    0.402
+Name: proportion, dtype: float64
+```
+- **Comentariu:** Setul de antrenament are 500 de rânduri, cu multe valori lipsă la 'Age' și 'Cabin'. Distribuția pe clase arată că majoritatea pasagerilor sunt din clasa a III-a și bărbați, iar rata de supraviețuire este de 40%.
+
+### test_eda_analis.py
+```
+testing set shape: (200, 12)
+testing set columns: ['PassengerId', 'Pclass', 'Name', 'Sex', 'Age', 'SibSp', 'Parch', 'Ticket', 'Fare', 'Cabin', 'Embarked', 'Survived']
+Missing values in testing set:
+       Missing  Percent (%)
+Age         40         20.0
+Fare         1          0.5
+Cabin      155         77.5
+
+testing set statistics:
+       PassengerId      Pclass         Age       SibSp      Parch        Fare    Survived
+count   200.000000  200.000000  200.000000  200.000000  200.00000  200.000000  200.000000
+mean   1096.640000    2.220000   29.092100    0.390000    0.41500   37.204771    0.355000
+std     127.796951    0.851602   12.329084    0.748801    1.18736   55.995626    0.479714
+min     892.000000    1.000000    0.170000    0.000000    0.00000    0.000000    0.000000
+25%     983.500000    1.000000   23.000000    0.000000    0.00000    7.917700    0.000000
+50%    1085.500000    2.000000   27.000000    0.000000    0.00000   14.179150    0.000000
+75%    1216.250000    3.000000   33.000000    1.000000    0.00000   29.700000    1.000000
+max    1308.000000    3.000000   76.000000    5.000000    9.00000  263.000000    1.000000
+
+Pclass distribution:
+Pclass
+3    0.495
+1    0.275
+2    0.230
+Name: proportion, dtype: float64
+
+Sex distribution:
+Sex
+male      0.645
+female    0.355
+Name: proportion, dtype: float64
+
+Embarked distribution:
+Embarked
+S    0.655
+C    0.240
+Q    0.105
+Name: proportion, dtype: float64
+
+Survived distribution:
+Survived
+0    0.645
+1    0.355
+Name: proportion, dtype: float64
+```
+- **Comentariu:** Setul de test are 200 de rânduri, cu valori lipsă la 'Age', 'Fare' și 'Cabin'. Distribuția pe clase și sex este similară cu cea din setul de antrenament, ceea ce validează consistența datelor.
+
+### train_model.py
+```
+Baseline Logistic Regression Performance:
+Accuracy:  0.8500
+Precision: 0.7662
+Recall:    0.8310
+F1-score:  0.7973
+
+Classification Report:
+              precision    recall  f1-score   support
+
+        Died       0.90      0.86      0.88       129
+    Survived       0.77      0.83      0.80        71
+
+    accuracy                           0.85       200
+   macro avg       0.83      0.85      0.84       200
+weighted avg       0.85      0.85      0.85       200
+```
+- **Comentariu:** Modelul Random Forest atinge o acuratețe de 85% pe setul de test, cu un echilibru bun între precizie și recall. Clasa "Died" este prezisă mai bine decât "Survived", ceea ce reflectă dezechilibrul din date.
+
 ## Analiza exploratorie a datelor (EDA) și rezultate model
 Am analizat distribuțiile, valorile lipsă, relațiile dintre variabile și corelațiile. Mai jos sunt TOATE ploturile generate, cu scurte comentarii:
 
