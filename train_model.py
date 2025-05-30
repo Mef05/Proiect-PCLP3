@@ -38,7 +38,6 @@ X_test = X_test.reindex(columns=X_train.columns, fill_value=0)
 
 # Build pipeline with imputer
 pipeline = Pipeline([
-    ('imputer', SimpleImputer(strategy='median')),
     ('clf', RandomForestClassifier(n_estimators=100, random_state=42))
 ])
 
